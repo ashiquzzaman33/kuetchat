@@ -10,6 +10,12 @@ import com.common.Constant;
 import com.common.Message;
 import com.common.UserDetails;
 
+/**
+ * Multi Threaded Server . Accept client and made link between them <br/>
+ * 
+ * @author Ashiquzzaman & Rashik Hasnat
+ *
+ */
 public class SocketServer implements Runnable {
 
 	public ServerThread clients[];
@@ -93,15 +99,16 @@ public class SocketServer implements Runnable {
 		return -1;
 	}
 
+	/**
+	 * Handle incoming message form client
+	 * 
+	 * @param ID
+	 * @param msg
+	 */
 	public synchronized void handle(int ID, Message msg) {
 		switch (msg.type) {
 		case Constant.SIGN_OUT:
-			// Announce(Constant.SIGN_OUT, "SERVER", msg.sender);
 			try {
-				// ArrayList<UserDetails>ud = db.getUserList();
-				// AnnounceWithoutSender(Constant.USER_LIST, msg.sender,
-				// "SERVER",
-				// db.getUserList());
 				db.setOnline(msg.sender, Constant.OFFLINE);
 				clients[findClient(ID)].logout();
 
@@ -262,6 +269,9 @@ public class SocketServer implements Runnable {
 		}
 	}
 
+	/*
+	 * Send message to a user
+	 */
 	public void sendToUser(int type, String sender, String content,
 			String receiver) {
 		findUserThread(receiver).send(
@@ -269,6 +279,11 @@ public class SocketServer implements Runnable {
 
 	}
 
+	/**
+	 * Remove a thread when logout or disconnected.
+	 * 
+	 * @param ID
+	 */
 	@SuppressWarnings("deprecation")
 	synchronized void remove(int ID) {
 		int pos = findClient(ID);

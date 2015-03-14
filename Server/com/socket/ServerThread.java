@@ -9,6 +9,12 @@ import java.sql.SQLException;
 import com.common.Constant;
 import com.common.Message;
 
+/**
+ * Single Client Thread dedicated per user
+ * 
+ * @author Ashiquzzaman
+ *
+ */
 class ServerThread extends Thread {
 
 	private SocketServer server = null;

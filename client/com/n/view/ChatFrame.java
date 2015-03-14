@@ -18,6 +18,12 @@ import com.n.utility.view.ModButton;
 import com.n.view.contacts.ContactsPanel;
 import com.n.view.contacts.IdentityUserView;
 
+/**
+ * Main Chat Window
+ * 
+ * @author Ashiquzzaman & Rashik Hasnat
+ *
+ */
 public class ChatFrame extends BasePanel {
 	public static ChatFrame chatFrame;
 	public MainView mainView;

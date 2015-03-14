@@ -11,11 +11,24 @@ import com.common.Constant;
 import com.common.Message;
 import com.common.UserDetails;
 
+/**
+ * <h1>Database Class</h1> Every Database related action and query is done here.
+ * 
+ * @author Ashiquzzaman & Rashik Hasnat
+ *
+ */
 public class Database {
 	public Database() throws SQLException {
 		DBUtil.getConnection();
 	}
 
+	/**
+	 * Check Whether usernaem exists or not
+	 * 
+	 * @param username
+	 * @return
+	 * @throws Exception
+	 */
 	public boolean usernameExists(String username) throws Exception {
 		String sql = "SELECT * FROM `logininfo`  WHERE `username`=?";
 		try (Connection conn = DBUtil.getConnection();
@@ -34,6 +47,13 @@ public class Database {
 		}
 	}
 
+	/**
+	 * Check Whether email address registered or not
+	 * 
+	 * @param email
+	 * @return
+	 * @throws Exception
+	 */
 	public boolean emaiExists(String email) throws Exception {
 		String sql1 = "SELECT * FROM `userinfo`  WHERE `email`=?";
 
@@ -53,6 +73,12 @@ public class Database {
 		}
 	}
 
+	/**
+	 * Get history Message of an user
+	 * 
+	 * @param userString
+	 * @return
+	 */
 	public ArrayList<Message> getHistoryMessage(String userString) {
 		String sql1 = "SELECT  `sender`, `recipient`, `message`, `date` FROM `chathistory` WHERE "
 				+ "`sender`=? or `recipient`=? order by `date`";
@@ -79,6 +105,14 @@ public class Database {
 		return new ArrayList<Message>();
 	}
 
+	/**
+	 * Get notification List of an user
+	 * 
+	 * @param userName
+	 * @param status
+	 * @return
+	 * @throws Exception
+	 */
 	public String getNotificationList(String userName, boolean status)
 			throws Exception {
 		String sql1 = "SELECT  `username`  FROM `notification` WHERE `friend` = ? and `status`=?";
@@ -149,6 +183,14 @@ public class Database {
 		}
 	}
 
+	/**
+	 * User login check
+	 * 
+	 * @param username
+	 * @param password
+	 * @return UserDetails used by Client app
+	 * @throws Exception
+	 */
 	public UserDetails login(String username, String password) throws Exception {
 		String sqlLogin = "SELECT  `password`, `block` FROM `logininfo` WHERE `username`=?";
 		try (Connection conn = DBUtil.getConnection();
@@ -170,6 +212,12 @@ public class Database {
 
 	}
 
+	/**
+	 * 
+	 * @param username
+	 * @return UserDetails
+	 * @throws Exception
+	 */
 	public UserDetails getUserDetail(String username) throws Exception {
 		UserDetails d = null;
 		String sqlInfo = "SELECT `fullname`, `email`, `address`, `usertype`,"
@@ -215,6 +263,13 @@ public class Database {
 		}
 	}
 
+	/**
+	 * Change Presence Status
+	 * 
+	 * @param userName
+	 * @param flag
+	 * @throws Exception
+	 */
 	public void setOnline(String userName, int flag) throws Exception {
 		String sql = "UPDATE `userinfo` SET `online`= ? WHERE `username`=?";
 		try (Connection conn = DBUtil.getConnection();
@@ -230,6 +285,14 @@ public class Database {
 		}
 	}
 
+	/**
+	 * User registration
+	 * 
+	 * @param userDetails
+	 * @param pass
+	 * @return
+	 * @throws Exception
+	 */
 	public boolean userRegistration(UserDetails userDetails, String pass)
 			throws Exception {
 		if (usernameExists(userDetails.userName)) {
@@ -284,6 +347,11 @@ public class Database {
 		return false;
 	}
 
+	/**
+	 * Save User Chat History To database
+	 * 
+	 * @param msg
+	 */
 	public void saveChatHistory(Message msg) {
 		String sql = "INSERT INTO `chathistory`(`sender`, `recipient`, `message`) VALUES (?, ?, ?)";
 		try (Connection conn = DBUtil.getConnection();

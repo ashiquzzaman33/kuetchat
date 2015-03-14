@@ -22,6 +22,13 @@ import com.n.userinfo.controller.UserController;
 import com.n.userinfo.model.IdentityModel;
 import com.n.view.ChatFrame;
 
+/**
+ * AppController, Adapter class for Network class and View class <br/>
+ * Use Singleton Pattern ensuring only one instance
+ * 
+ * @author Ashiquzzaman
+ *
+ */
 public class AppController implements IncommingHandeler {
 	private boolean[] space = new boolean[1000];
 	private HashMap<Integer, Object> objects = new HashMap<>();
@@ -44,6 +51,9 @@ public class AppController implements IncommingHandeler {
 		return _appController;
 	}
 
+	/**
+	 * Handling Incomming Messages
+	 */
 	@Override
 	public void incomingHandle(Message msg) {
 		if (msg.type == Constant.UPLOAD_REQUEST) {
@@ -98,6 +108,11 @@ public class AppController implements IncommingHandeler {
 
 	}
 
+	/**
+	 * Handle Incoming message whose caller not found.
+	 * 
+	 * @param msg
+	 */
 	public void handleMessage(Message msg) {
 		if (msg.type == Constant.USER_LIST) {
 			UserDetails u = new UserDetails(msg.content);
@@ -131,6 +146,14 @@ public class AppController implements IncommingHandeler {
 		}
 	}
 
+	/**
+	 * Wrapper Send() method to send message over network
+	 * 
+	 * @param c
+	 *            CallBackable class
+	 * @param msg
+	 *            Message to be sent
+	 */
 	public void send(CallBackable c, Message msg) {
 
 		if (msg == null) {
@@ -142,6 +165,11 @@ public class AppController implements IncommingHandeler {
 		chatClient.sendMessage(msg);
 	}
 
+	/**
+	 * Send message whitout callback
+	 * 
+	 * @param msg
+	 */
 	public void send(Message msg) {
 		if (msg != null)
 			chatClient.sendMessage(msg);

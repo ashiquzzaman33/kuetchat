@@ -13,7 +13,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Observable;
@@ -26,6 +28,7 @@ import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -35,6 +38,8 @@ import javax.swing.KeyStroke;
 import com.client.controller.AppController;
 import com.common.Constant;
 import com.common.Message;
+import com.kuetchat.client.network.Upload;
+import com.kuetchat.client.utility.CallBackable;
 import com.n.userinfo.controller.UserController;
 import com.n.userinfo.model.FriendInfoModel;
 import com.n.userinfo.model.IdentityModel;
@@ -43,7 +48,7 @@ import com.n.utility.JScrollPanelX;
 import com.n.utility.PropertyList;
 import com.n.utility.view.UtilityMethod;
 
-public class MainChatPanel extends JPanel implements Observer {
+public class MainChatPanel extends JPanel implements Observer, CallBackable {
 	private static final long serialVersionUID = -5691429178970325474L;
 	private ImageIcon profilePic = UtilityMethod
 			.getImageIcon("/resources/dummyprofile.png");
@@ -55,6 +60,7 @@ public class MainChatPanel extends JPanel implements Observer {
 	private JScrollPanelX scrollPanelX = new JScrollPanelX();;
 	private JPanel messageHolderPanel;
 	private FriendInfoModel model;
+	private File file;
 
 	public MainChatPanel(FriendInfoModel model, ImageIcon imageIcon) {
 		this.model = model;
@@ -165,6 +171,50 @@ public class MainChatPanel extends JPanel implements Observer {
 			callButton.setFocusPainted(false);
 			plusButton = new JButton(
 					UtilityMethod.getImageIcon("/resources/plus.png"));
+			plusButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					JFileChooser fileChooser = new JFileChooser();
+					fileChooser.showDialog(ChatFrame.chatFrame, "Select File");
+					file = fileChooser.getSelectedFile();
+
+					if (file != null) {
+						if (!file.getName().isEmpty()) {
+							String str;
+							str = file.getPath();
+						}
+
+						long size = file.length();
+						if (size < 120 * 1024 * 1024) {
+							try {
+								AppController
+										.getInstance()
+										.send(MainChatPanel.this,
+												new Message(
+														Constant.UPLOAD_REQUEST,
+														file.length() + "",
+														file.getName(),
+														UserController
+																.getFriendInfoController()
+																.getSelectedFriend(),
+														1));
+							} catch (UnknownHostException e) {
+								e.printStackTrace();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							addMessage(
+									IdentityModel.getIdentityModel()
+											.getUserName(),
+									"Too Large File! File should be less than 120MB.",
+									Calendar.getInstance().getTime(), true);
+						}
+
+					}
+				}
+			});
 			plusButton.setRolloverIcon(UtilityMethod
 					.getImageIcon("/resources/plusr.png"));
 			plusButton.setPressedIcon(UtilityMethod
@@ -318,5 +368,34 @@ public class MainChatPanel extends JPanel implements Observer {
 
 	public String getUserName() {
 		return model.getUserName();
+	}
+
+	@Override
+	public void callBack(String exception) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void callBack(Message msg) {
+		if (!msg.content.equals("NO")) {
+			int port = Integer.parseInt(msg.content);
+			String addr = msg.recipient;
+
+			Upload upl = new Upload(msg.sender, addr, port, file,
+					ChatFrame.chatFrame);
+			Thread t = new Thread(upl);
+			t.start();
+		} else {
+			addMessage(msg.sender, "rejected file request.", Calendar
+					.getInstance().getTime(), true);
+		}
+
+	}
+
+	@Override
+	public void send(Message msg) {
+		// TODO Auto-generated method stub
+
 	}
 }

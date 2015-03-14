@@ -184,6 +184,22 @@ public class SocketServer implements Runnable {
 		case Constant.PRESENCE_CHANGE:
 			changePresence(msg.sender, Integer.parseInt(msg.content));
 			break;
+		case Constant.UPLOAD_REQUEST:
+			if (findUserThread(msg.recipient) != null) {
+				String rec = msg.recipient;
+				msg.recipient = msg.sender;
+				msg.sender = clients[findClient(ID)].username;
+				findUserThread(rec).send(msg);
+			}
+			break;
+		case Constant.UPLOAD_RESPONSE:
+			if (findUserThread(msg.recipient) != null) {
+				String rec = msg.recipient;
+				msg.recipient = msg.sender;
+				msg.sender = clients[findClient(ID)].username;
+				findUserThread(rec).send(msg);
+			}
+			break;
 		case Constant.NOTIFICATION_CLEAR:
 			try {
 				db.setNotification(msg.recipient, msg.sender, false);

@@ -1,18 +1,25 @@
 package com.client.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import com.common.Constant;
 import com.common.Message;
 import com.common.UserDetails;
 import com.kuetchat.client.network.ChatClient;
+import com.kuetchat.client.network.Download;
 import com.kuetchat.client.utility.CallBackable;
 import com.kuetchat.client.utility.IncommingHandeler;
 import com.n.userinfo.controller.UserController;
+import com.n.userinfo.model.IdentityModel;
 import com.n.view.ChatFrame;
 
 public class AppController implements IncommingHandeler {
@@ -39,7 +46,46 @@ public class AppController implements IncommingHandeler {
 
 	@Override
 	public void incomingHandle(Message msg) {
-		if (msg.callBackId != -1) {
+		if (msg.type == Constant.UPLOAD_REQUEST) {
+			if (JOptionPane.showConfirmDialog(ChatFrame.chatFrame, ("Accept '"
+					+ msg.content + "' from " + msg.sender + " ?")) == 0) {
+
+				JFileChooser jf = new JFileChooser();
+				jf.setSelectedFile(new File(msg.content));
+				int returnVal = jf.showSaveDialog(ChatFrame.chatFrame);
+
+				String saveTo = jf.getSelectedFile().getPath();
+				if (saveTo != null && returnVal == JFileChooser.APPROVE_OPTION) {
+
+					Download dwn = new Download(msg.sender, saveTo,
+							ChatFrame.chatFrame);
+					Thread t = new Thread(dwn);
+					t.start();
+					msg.type = Constant.UPLOAD_RESPONSE;
+					msg.recipient = msg.sender;
+					msg.content = dwn.port + "";
+					try {
+						msg.sender = InetAddress.getLocalHost()
+								.getHostAddress() + "";
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+					}
+					send(msg);
+				} else {
+					msg.type = Constant.UPLOAD_RESPONSE;
+					msg.recipient = msg.sender;
+					msg.content = "NO";
+					msg.sender = IdentityModel.getIdentityModel().getUserName();
+					send(msg);
+				}
+			} else {
+				msg.type = Constant.UPLOAD_RESPONSE;
+				msg.recipient = msg.sender;
+				msg.content = "NO";
+				msg.sender = IdentityModel.getIdentityModel().getUserName();
+				send(msg);
+			}
+		} else if (msg.callBackId != -1) {
 			try {
 				invoke(msg.callBackId, msg);
 			} catch (InvocationTargetException | IllegalAccessException

@@ -38,8 +38,8 @@ public class FriendInfoView extends JPanel implements Observer {
 	};
 	private ImageIcon[] backgrounds = {
 			UtilityMethod
-					.getImageIcon("/resources/friendBackgroundSelected.png"),
-			UtilityMethod.getImageIcon("/resources/friendBackground.png") };
+					.getImageIcon("/resources/friendbackgroundselected.png"),
+			UtilityMethod.getImageIcon("/resources/friendbackground.png") };
 	private ImageIcon iconNotification = UtilityMethod
 			.getImageIcon("/resources/iconotification.png");
 

@@ -1,0 +1,76 @@
+/*
+Design by http://www.bluewebtemplates.com
+Released for free under a Creative Commons Attribution 3.0 License
+*/
+
+@charset "utf-8";
+body { margin:0; padding:0; width:100%; color:#5f5f5f; font:normal 12px/1.8em Arial, Helvetica, sans-serif;}
+html, .main { padding:0; margin:0; background-color:#fff;}
+.clr { clear:both; padding:0; margin:0; width:100%; font-size:0px; line-height:0px;}
+h1 { margin:0; padding:32px 0 0; color:#fff; font:normal 40px/1.2em Arial, Helvetica, sans-serif; text-transform:uppercase; text-align:center;}
+h1 a, h1 a:hover { color:#fff; text-decoration:none;}
+h1 small { font:normal 16px/1.2em Arial, Helvetica, sans-serif;}
+h2 { font:normal 24px Arial, Helvetica, sans-serif; color:#4b4b4b; padding:8px 0; margin:8px 0;}
+p { margin:8px 0; padding:0 0 8px 0; font:normal 12px/1.8em Arial, Helvetica, sans-serif;}
+a { color:#00b2e8; text-decoration:underline;}
+
+.header, .content, .menu_nav, .fbg, .footer, form, ol, ol li, ul, .content .mainbar, .content .sidebar { margin:0; padding:0;}
+.content_resize, .fbg_resize, .footer_resize { margin:0 auto; padding:0 40px; width:890px;}
+
+/* header */
+.header { background:url(images/header_bg.jpg) repeat-x center top;}
+.header_resize { margin:0 auto; padding:0; width:970px; height:337px;}
+.header .logo { padding:61px 0 0 318px; float:left; width:auto;}
+
+/* menu */
+.menu_nav { padding-left:20px; float:left; width:auto;}
+.menu_nav ul { list-style:none; padding-top:14px;}
+.menu_nav ul li { margin:0 4px; float:left;}
+.menu_nav ul li a { display:block; margin:0; padding:20px 24px; color:#fff; text-decoration:none;}
+.menu_nav ul li.active a, .menu_nav ul li a:hover { color:#00b2e8; background:url(images/menu_a.gif) no-repeat center top;}
+
+/* content */
+.content_resize { padding-right:0; padding-top:16px; width:930px;}
+.content .mainbar { float:left; width:630px;}
+.content .mainbar img { margin-bottom:24px; padding:4px; border:1px solid #b7b7b7; background-color:#fff;}
+.content .mainbar img.fl { float:left; margin-right:12px;}
+.content .mainbar .article, .content .sidebar .gadget { margin:0; padding:0 0 16px 0;}
+.content .sidebar { float:right; width:276px;}
+ul.sb_menu, ul.ex_menu { margin:0; padding:0; list-style:none; color:#959595;}
+ul.sb_menu li, ul.ex_menu li { margin:0; background:url(images/li.gif) no-repeat 0 12px;}
+ul.sb_menu li { padding:4px 0; border-bottom:1px solid #e3e3e3; width:220px;}
+ul.ex_menu li { padding:4px 0 8px;}
+ul.sb_menu li a, ul.ex_menu li a { color:#5f5f5f; text-decoration:none; margin-left:-16px; padding-left:16px;}
+ul.sb_menu li a:hover, ul.ex_menu li a:hover { color:#00b2e8; background:url(images/li_a.gif) no-repeat left center;}
+ul.sb_menu li a:hover { text-decoration:underline;}
+ul.ex_menu li a:hover { text-decoration:none;}
+
+/* subpages */
+.content .mainbar .comment { margin:0; padding:16px 0 0 0;}
+.content .mainbar .comment img.userpic { border:1px solid #dedede; margin:10px 16px 0 0; padding:0; float:left;}
+
+/* fbg */
+.fbg_resize { padding:24px 40px;}
+.fbg img { border:1px solid #d6d6d6;}
+.fbg .col { margin:0; float:left;}
+.fbg .c1 { padding:0 16px 0 0; width:296px;}
+.fbg .c2 { padding:0 16px; width:240px;}
+.fbg .c3 { padding:0 0 0 16px; width:290px;}
+.fbg .c1 img { margin:8px 16px 4px 0; float:left;}
+
+/* footer */
+.footer { padding:16px; background-color:#434242;}
+.footer p.lf { margin:0; padding:4px 0; float:right; width:auto; line-height:1.5em; color:#727272;}
+ul.fmenu { margin:0; padding:2px 0; list-style:none; float:left; width:auto;}
+ul.fmenu li { margin:0; padding:0 4px; float:left;}
+ul.fmenu li a { color:#727272; text-decoration:none; padding:2px 6px;}
+ul.fmenu li a:hover, ul.fmenu li.active a { color:#fff;}
+ul.fmenu li a:hover { text-decoration:underline;}
+
+/* form */
+ol { list-style:none;}
+ol li { display:block; clear:both;}
+ol li label { display:block; margin:0; padding:16px 0 0 0;}
+ol li input.text { width:480px; border:1px solid #c0c0c0; margin:2px 0; padding:5px 2px; height:16px; background:#fff;}
+ol li textarea { width:480px; border:1px solid #c0c0c0; margin:2px 0; padding:2px; background:#fff;}
+ol li .send { margin:16px 0 0 0;}

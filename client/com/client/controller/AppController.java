@@ -36,7 +36,7 @@ public class AppController implements IncommingHandeler {
 	private static AppController _appController = null;
 
 	private AppController() throws UnknownHostException, IOException {
-		chatClient = new ChatClient("192.168.137.142", 13000);
+		chatClient = new ChatClient("192.168.137.141", 13000);
 		chatClient.addHandelerMethod(this);
 	}
 
